@@ -11,12 +11,21 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Colors, Fonts, Spacing, GlobalStyles} from '../../styles/globalStyles';
 import {formatContactName} from '../../data/contactsData';
 const {width} = Dimensions.get('window');
+
+/**
+ * ContactListItem Component
+ * Renders a single contact with avatar, name, company, phone, and action buttons.
+ * Actions: Favorite, Call, Message, Delete (CRUD support).
+ * Optimized with React.memo for performance.
+ * Includes accessibility roles and labels.
+ */
 const ContactListItem = memo(({
 contact,
 onPress,
 onFavoritePress,
 onCallPress,
 onMessagePress,
+onDeletePress,
 }) => {
 const fullName = formatContactName(contact);
 const initials = `${contact.firstName[0]}${contact.lastName[0]}`.toUpperCase();
@@ -72,6 +81,15 @@ name={contact.favorite ? 'star' : 'star-border'}
 size={20}
 color={contact.favorite ? Colors.secondary : Colors.text.secondary}
 />
+</TouchableOpacity>
+<TouchableOpacity
+  style={styles.actionButton}
+  onPress={() => onDeletePress(contact.id)}
+  accessible={true}
+  accessibilityRole="button"
+  accessibilityLabel={`Delete ${fullName}`}
+>
+  <Icon name="delete" size={20} color="red" />
 </TouchableOpacity>
 <TouchableOpacity
 style={styles.actionButton}

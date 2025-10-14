@@ -90,16 +90,32 @@ Alert.alert('Error', 'SMS is not supported on this device');
 }
 });
 }, []);
+// Handle delete contact
+const handleDeletePress = useCallback((contactId) => {
+  Alert.alert(
+    "Delete Contact",
+    "Are you sure you want to delete this contact?",
+    [
+      { text: "Cancel", style: "cancel" },
+      { 
+        text: "Delete", 
+        style: "destructive",
+        onPress: () => deleteContact(contactId) 
+      }
+    ]
+  );
+}, [deleteContact]);
 // Render contact item
 const renderContactItem = useCallback(({item}) => (
-<ContactListItem
-contact={item}
-onPress={handleContactPress}
-onFavoritePress={handleFavoritePress}
-onCallPress={handleCallPress}
-onMessagePress={handleMessagePress}
-/>
-), [handleContactPress, handleFavoritePress, handleCallPress, handleMessagePress]);
+  <ContactListItem
+    contact={item}
+    onPress={handleContactPress}
+    onFavoritePress={handleFavoritePress}
+    onCallPress={handleCallPress}
+    onMessagePress={handleMessagePress}
+    onDeletePress={handleDeletePress}   // <-- adiciona aqui
+  />
+), [handleContactPress, handleFavoritePress, handleCallPress, handleMessagePress, handleDeletePress]);
 // Render empty state
 const renderEmptyState = useCallback(() => (
 <View style={styles.emptyContainer}>
